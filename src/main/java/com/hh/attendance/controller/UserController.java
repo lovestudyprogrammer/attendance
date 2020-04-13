@@ -69,6 +69,7 @@ public class UserController {
     public ResultBody register(@RequestBody User user) {
         checkUserAugrment(user);
         int userId = userService.addUser(user);
+        // TODO: 2020/4/13 考虑注册之后直接登录，不再需要跳转到登陆页面
         return ResultBody.success(userId);
     }
 
