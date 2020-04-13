@@ -12,7 +12,7 @@ CREATE TABLE `class_md_user` (
   `student_id` int(11) NOT NULL COMMENT '学生id',
   `class_id` int(11) NOT NULL COMMENT '班级id',
   `teacher_id` int(11) NOT NULL COMMENT '老师id',
-  UNIQUE KEY `stu_class_id` (`student_id`,`class_id`),
+  UNIQUE KEY `stu_class_id` (`student_id`,`class_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='学生班级中间表';
 
 DROP TABLE IF EXISTS `leave`;
