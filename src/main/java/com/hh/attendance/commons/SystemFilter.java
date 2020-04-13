@@ -73,7 +73,6 @@ public class SystemFilter implements Filter {
             if (whiteList.isEmpty()) {
                 whiteList.add("/login");
                 whiteList.add("/registerUser");
-//                whiteList.add("/getUser");
             }
         }
         return whiteList;

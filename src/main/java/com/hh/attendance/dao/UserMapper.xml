@@ -6,10 +6,25 @@
 <mapper namespace="com.hh.attendance.dao.UserMapper">
     <resultMap id="UserMap" type="com.hh.attendance.pojo.User">
         <id property="id" column="id"/>
+        <result property="userName" column="username"/>
+        <result property="password" column="password"/>
         <result property="name" column="name"/>
+        <result property="phone" column="phone"/>
+        <result property="sex" column="sex"/>
+        <result property="type" column="type"/>
+        <result property="sno" column="sno"/>
     </resultMap>
 
     <select id="getUserById" resultMap="UserMap">
         select * from user where id = #{userId}
     </select>
+    <select id="getUserByUserNameAndPassword" resultMap="UserMap">
+        select * from user where username = #{username} and password = #{password}
+    </select>
+    <select id="listUserByType" resultMap="UserMap">
+        select * from user where type = #{type}
+    </select>
+    <insert id="insert" keyProperty="vo.id" keyColumn="id" useGeneratedKeys="true">
+        insert into user (username,password,name,phone,sex,type,sno) values (#{vo.userName},#{vo.password},#{vo.name},#{vo.phone},#{vo.sex},#{vo.type},#{vo.sno})
+    </insert>
 </mapper>

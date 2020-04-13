@@ -1,5 +1,6 @@
 package com.hh.attendance.pojo;
 
+import com.hh.attendance.enums.UserTypeEnum;
 import lombok.Data;
 
 /**
@@ -13,6 +14,19 @@ import lombok.Data;
 @Data
 public class User {
 
-    private Long id;
+    private Integer id;
+    private String userName;
+    private String password;
     private String name;
+    private String phone;
+    /**
+     * true 男
+     * false 女
+     */
+    private boolean sex;
+    /**
+     * @see UserTypeEnum
+     */
+    private Integer type;
+    private String sno;
 }
