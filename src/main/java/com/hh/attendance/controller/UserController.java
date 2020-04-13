@@ -28,7 +28,7 @@ public class UserController {
     @RequestMapping("/getUser")
     public ResultBody test() {
         User user = new User();
-        user.setId(1L);
+        user.setId(1);
         user.setName("");
         // 存session可以这样使用
         SessionHolder.put(Constant.USER_SESSION, user);

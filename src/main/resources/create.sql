@@ -56,7 +56,7 @@ CREATE TABLE `user` (
   `password` varchar(64) NOT NULL,
   `name` varchar(64) NOT NULL COMMENT '真实姓名',
   `phone` varchar(64) NOT NULL COMMENT '手机号',
-  `sex` int(11) NOT NULL COMMENT '性别',
+  `sex` tinyint(4) NOT NULL COMMENT '性别,0:女,1:男',
   `type` int(11) NOT NULL COMMENT '用户类型,0为管理员，1为学生,2为老师',
   `sno` int(11) DEFAULT NULL COMMENT '学生学号',
   PRIMARY KEY (`id`),
