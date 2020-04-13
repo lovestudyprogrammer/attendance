@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hh.attendance.dao.LeaveMapper" >
+  <resultMap id="BaseResultMap" type="com.hh.attendance.pojo.Leave" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="stu_id" property="stuId" jdbcType="INTEGER" />
+    <result column="class_id" property="classId" jdbcType="INTEGER" />
+    <result column="leave_start" property="leaveStart" jdbcType="TIMESTAMP" />
+    <result column="leave_end" property="leaveEnd" jdbcType="TIMESTAMP" />
+    <result column="creat_time" property="creatTime" jdbcType="TIMESTAMP" />
+    <result column="cause" property="cause" jdbcType="VARCHAR" />
+    <result column="approval_state" property="approvalState" jdbcType="INTEGER" />
+    <result column="approval_opinion" property="approvalOpinion" jdbcType="VARCHAR" />
+    <result column="approval_time" property="approvalTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, stu_id, class_id, leave_start, leave_end, creat_time, cause, approval_state, 
+    approval_opinion, approval_time
+  </sql>
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from leave
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteById" parameterType="java.lang.Integer" >
+    delete from leave
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hh.attendance.pojo.Leave" >
+    insert into leave (id, stu_id, class_id, 
+      leave_start, leave_end, creat_time, 
+      cause, approval_state, approval_opinion, 
+      approval_time)
+    values (#{id,jdbcType=INTEGER}, #{stuId,jdbcType=INTEGER}, #{classId,jdbcType=INTEGER}, 
+      #{leaveStart,jdbcType=TIMESTAMP}, #{leaveEnd,jdbcType=TIMESTAMP}, #{creatTime,jdbcType=TIMESTAMP}, 
+      #{cause,jdbcType=VARCHAR}, #{approvalState,jdbcType=INTEGER}, #{approvalOpinion,jdbcType=VARCHAR}, 
+      #{approvalTime,jdbcType=TIMESTAMP})
+  </insert>
+  <update id="updateById" parameterType="com.hh.attendance.pojo.Leave" >
+    update leave
+    set stu_id = #{stuId,jdbcType=INTEGER},
+      class_id = #{classId,jdbcType=INTEGER},
+      leave_start = #{leaveStart,jdbcType=TIMESTAMP},
+      leave_end = #{leaveEnd,jdbcType=TIMESTAMP},
+      creat_time = #{creatTime,jdbcType=TIMESTAMP},
+      cause = #{cause,jdbcType=VARCHAR},
+      approval_state = #{approvalState,jdbcType=INTEGER},
+      approval_opinion = #{approvalOpinion,jdbcType=VARCHAR},
+      approval_time = #{approvalTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
