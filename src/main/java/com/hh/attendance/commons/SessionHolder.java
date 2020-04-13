@@ -22,7 +22,7 @@ public class SessionHolder {
         return user;
     }
 
-    public static Long getUserId() {
+    public static Integer getUserId() {
         User user = getUser();
         if (user == null) {
             return null;

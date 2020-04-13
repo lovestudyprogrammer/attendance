@@ -33,7 +33,7 @@ public class UserController {
         // 存session可以这样使用
         SessionHolder.put(Constant.USER_SESSION, user);
         // 获取session
-        Long userId = SessionHolder.getUserId();
+        Integer userId = SessionHolder.getUserId();
         // 判空工具类，，第二个参数抛空异常信息
         CommonUtil.ckeckAugrmentIsNull(userId, "暂无登陆信息");
         User userById = userService.getUserById(userId);
