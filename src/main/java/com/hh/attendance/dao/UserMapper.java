@@ -13,4 +13,8 @@ public interface UserMapper {
     Collection<User> listUserByType(@Param("type") int type);
 
     int insert(@Param("vo") User user);
+
+    int updateById(User record);
+
+    int deleteById(Integer id);
 }

@@ -91,6 +91,18 @@ public class UserController {
         return ResultBody.success(userVoList);
     }
 
+    @PostMapping("/updateUser")
+    public ResultBody updateUser(@RequestBody User user) {
+        int c= userService.updateById(user);
+        return ResultBody.success(c);
+    }
+
+    @RequestMapping("/delUser")
+    public ResultBody delUser(@RequestParam("id") Integer id) {
+        int i = userService.deleteById(id);
+        return ResultBody.success(i);
+    }
+
     private void checkUserAugrment(User user) {
         CommonUtil.ckeckAugrmentIsNull(user.getUserName(), "用户昵称不能为空");
         CommonUtil.ckeckAugrmentIsNull(user.getPassword(), "密码不能为空");

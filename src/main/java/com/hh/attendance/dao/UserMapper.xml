@@ -27,4 +27,19 @@
     <insert id="insert" keyProperty="vo.id" keyColumn="id" useGeneratedKeys="true">
         insert into user (username,password,name,phone,sex,type,sno) values (#{vo.userName},#{vo.password},#{vo.name},#{vo.phone},#{vo.sex},#{vo.type},#{vo.sno})
     </insert>
+    <update id="updateById" parameterType="com.hh.attendance.pojo.User" >
+        update user
+            username = #{username,jdbcType=VARCHAR},
+            password = #{password,jdbcType=INTEGER},
+            name = #{name,jdbcType=VARCHAR},
+            phone = #{phone,jdbcType=VARCHAR},
+            sex = #{sex},
+            type = #{type,jdbcType=INTEGER},
+            sno = #{sno,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <delete id="deleteById" parameterType="java.lang.Integer" >
+        delete from user
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
 </mapper>

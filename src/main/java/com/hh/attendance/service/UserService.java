@@ -21,4 +21,9 @@ public interface UserService {
      * @see com.hh.attendance.enums.UserTypeEnum
      */
     Collection<User> listByUserType(@RequestParam("type") int type);
+
+
+    int updateById(@RequestBody User record);
+
+    int deleteById(@RequestParam("id")Integer id);
 }

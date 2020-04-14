@@ -52,6 +52,16 @@ public class UserServiceImpl implements UserService {
         return userList;
     }
 
+    @Override
+    public int updateById(User record) {
+        return userMapper.updateById(record);
+    }
+
+    @Override
+    public int deleteById(Integer id) {
+        return userMapper.deleteById(id);
+    }
+
     private void duplicateKey(DuplicateKeyException e) {
         String message = e.getMessage();
         if (message != null) {
