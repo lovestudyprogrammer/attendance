@@ -14,6 +14,8 @@ public interface MdUserService {
 
     int deleteById(@RequestParam("id") Integer id);
 
+    void saveClassMdUser(@RequestParam("userId") int userID,
+                         @RequestParam("classIds") int... classIds);
 
 
 }

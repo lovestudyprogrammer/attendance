@@ -66,10 +66,9 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResultBody register(@RequestBody User user) {
-        checkUserAugrment(user);
-        int userId = userService.addUser(user);
-        // TODO: 2020/4/13 考虑注册之后直接登录，不再需要跳转到登陆页面
+    public ResultBody register(@RequestBody UserVo userVo) {
+        checkUserAugrment(userVo);
+        int userId = userService.addUser(userVo);
         return ResultBody.success(userId);
     }
 
@@ -93,7 +92,7 @@ public class UserController {
 
     @PostMapping("/updateUser")
     public ResultBody updateUser(@RequestBody User user) {
-        int c= userService.updateById(user);
+        int c = userService.updateById(user);
         return ResultBody.success(c);
     }
 
@@ -103,12 +102,15 @@ public class UserController {
         return ResultBody.success(i);
     }
 
-    private void checkUserAugrment(User user) {
+    private void checkUserAugrment(UserVo user) {
         CommonUtil.ckeckAugrmentIsNull(user.getUserName(), "用户昵称不能为空");
         CommonUtil.ckeckAugrmentIsNull(user.getPassword(), "密码不能为空");
         CommonUtil.ckeckAugrmentIsNull(user.getName(), "请输入真实姓名");
         CommonUtil.ckeckAugrmentIsNull(user.getPhone(), "手机号码不能为空");
         CommonUtil.ckeckAugrmentIsNull(user.isSex(), "性别不能为空");
         CommonUtil.ckeckAugrmentIsNull(user.getType(), "请选择类型");
+        if (user.getType() == UserTypeEnum.STUDENT.getId()) {
+            CommonUtil.ckeckAugrmentIsNull(user.getClassId(), "请选择所在班级");
+        }
     }
 }

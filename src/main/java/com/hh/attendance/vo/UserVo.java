@@ -15,4 +15,6 @@ import lombok.Data;
 public class UserVo extends User {
     private String typeName;
 
+    private Integer classId;
+
 }

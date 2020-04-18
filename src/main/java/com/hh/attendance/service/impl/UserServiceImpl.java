@@ -1,11 +1,17 @@
 package com.hh.attendance.service.impl;
 
+import com.hh.attendance.commons.CommonUtil;
 import com.hh.attendance.dao.UserMapper;
+import com.hh.attendance.enums.UserTypeEnum;
 import com.hh.attendance.pojo.User;
+import com.hh.attendance.service.MdUserService;
 import com.hh.attendance.service.UserService;
+import com.hh.attendance.vo.UserVo;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Collection;
@@ -23,6 +29,8 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private MdUserService mdUserService;
 
     @Override
     public User getUserById(Integer userId) {
@@ -35,11 +43,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int addUser(@RequestBody User user) {
+    @Transactional
+    public int addUser(@RequestBody UserVo userVo) {
+        User user = new User();
         try {
-            // TODO: 2020/4/13 设置学生编号
-            user.setSno("");
+            BeanUtils.copyProperties(userVo, user);
+            if (user.getType() == UserTypeEnum.STUDENT.getId()) {
+                // 设置学号
+                user.setSno(CommonUtil.generateNumber());
+            }
             userMapper.insert(user);
+            // 班级
+            mdUserService.saveClassMdUser(user.getId(), userVo.getClassId());
         } catch (DuplicateKeyException e) {
             duplicateKey(e);
         }

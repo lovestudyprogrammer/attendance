@@ -1,6 +1,7 @@
 package com.hh.attendance.service;
 
 import com.hh.attendance.pojo.User;
+import com.hh.attendance.vo.UserVo;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -11,7 +12,7 @@ public interface UserService {
 
     User getUserByUserNameAndPassword(@RequestParam("username") String userName, @RequestParam("password") String password);
 
-    int addUser(@RequestBody User user);
+    int addUser(@RequestBody UserVo userVo);
 
     /**
      * 根据用户类型查询user
@@ -25,5 +26,5 @@ public interface UserService {
 
     int updateById(@RequestBody User record);
 
-    int deleteById(@RequestParam("id")Integer id);
+    int deleteById(@RequestParam("id") Integer id);
 }

@@ -28,5 +28,5 @@ public class User {
      * @see UserTypeEnum
      */
     private Integer type;
-    private String sno;
+    private Integer sno;
 }

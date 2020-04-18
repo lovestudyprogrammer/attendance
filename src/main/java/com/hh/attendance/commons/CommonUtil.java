@@ -2,6 +2,7 @@ package com.hh.attendance.commons;
 
 import org.apache.commons.lang.StringUtils;
 
+import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
@@ -24,11 +25,15 @@ public class CommonUtil {
             if (StringUtils.isEmpty((String) o)) {
                 throw new RuntimeException(msg);
             }
+        } else if (o.getClass().isArray()) {
+            if (Array.getLength(o) <= 0) {
+                throw new RuntimeException(msg);
+            }
         }
     }
 
-    public static long generateNumber() {
-        SimpleDateFormat dmDate = new SimpleDateFormat("yyyyMMddHHmmss"); // 获取当前时间
+    public static int generateNumber() {
+        SimpleDateFormat dmDate = new SimpleDateFormat("yyyyMMdd"); // 获取当前时间
 
         Random random = new Random(); // 定义随机数
         int ran = random.nextInt(100); // 随机数长度位数
@@ -36,6 +41,6 @@ public class CommonUtil {
         Date date = new Date();
         String dateran = dmDate.format(date);
         String randomMath = dateran + ran;
-        return Long.valueOf(randomMath);
+        return Integer.valueOf(randomMath);
     }
 }
