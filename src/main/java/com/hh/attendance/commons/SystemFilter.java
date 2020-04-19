@@ -72,7 +72,8 @@ public class SystemFilter implements Filter {
         synchronized (whiteList) {
             if (whiteList.isEmpty()) {
                 whiteList.add("/login");
-                whiteList.add("/registerUser");
+                whiteList.add("/register");
+                whiteList.add("/findPassword");
             }
         }
         return whiteList;

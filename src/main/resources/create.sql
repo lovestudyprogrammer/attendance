@@ -12,8 +12,7 @@ CREATE TABLE `class_md_user` (
   `student_id` int(11) NOT NULL COMMENT '学生id',
   `class_id` int(11) NOT NULL COMMENT '班级id',
   `teacher_id` int(11) NOT NULL COMMENT '老师id',
-  PRIMARY KEY (`student_id`),
-  UNIQUE KEY `class_id` (`class_id`)
+  PRIMARY KEY (`student_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='学生班级中间表';
 
 

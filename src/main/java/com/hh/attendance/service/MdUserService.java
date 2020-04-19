@@ -10,8 +10,6 @@ public interface MdUserService {
 
     int addMdUser(@RequestBody ClassMdUser record);
 
-    int updateById(@RequestBody ClassMdUser record);
-
     int deleteById(@RequestParam("id") Integer id);
 
     void saveClassMdUser(@RequestParam("userId") int userID,

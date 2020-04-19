@@ -12,13 +12,19 @@
     values (#{studentId,jdbcType=INTEGER}, #{classId,jdbcType=INTEGER}, #{teacherId,jdbcType=INTEGER}
       )
   </insert>
-    <select id="classId" resultMap="BaseResultMap">
+    <select id="getByClassId" resultMap="BaseResultMap">
     select * from class_md_user where class_id = #{classId}
   </select>
+    <select id="getClassMdUserById" resultMap="BaseResultMap">
+        select * from class_md_user where student_id = #{id}
+    </select>
     <update id="updateTeacherByClassIds">
         update class_md_user set teacher_id = #{teacherId} where class_id in
         <foreach collection="classIds" item="classId" open="(" close=")" separator=",">
             #{classId}
         </foreach>
+    </update>
+    <update id="updateStudentClassById">
+        update class_md_user set class_id = #{classId} where student_id = #{studentId}
     </update>
 </mapper>

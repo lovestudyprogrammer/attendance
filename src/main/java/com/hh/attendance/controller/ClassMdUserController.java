@@ -16,19 +16,13 @@ public class ClassMdUserController {
 
     @GetMapping("/getMdUser")
     public ResultBody getMdUser(@RequestParam("id") Integer id) {
-        ClassMdUser mdUser= mdUserService.getMdUserById(id);
+        ClassMdUser mdUser = mdUserService.getMdUserById(id);
         return ResultBody.success(mdUser);
     }
 
     @PostMapping("/addMdUser")
     public ResultBody addMdUser(@RequestBody ClassMdUser mdUser) {
-        int c= mdUserService.addMdUser(mdUser);
-        return ResultBody.success(c);
-    }
-
-    @PostMapping("/updateMdUser")
-    public ResultBody updateMdUser(@RequestBody ClassMdUser mdUser) {
-        int c= mdUserService.updateById(mdUser);
+        int c = mdUserService.addMdUser(mdUser);
         return ResultBody.success(c);
     }
 
