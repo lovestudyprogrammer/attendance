@@ -24,6 +24,12 @@
     <select id="listUserByType" resultMap="UserMap">
         select * from user where type = #{type}
     </select>
+    <select id="selectStuList" resultMap="UserMap">
+        select * from user where type = 1
+    </select>
+    <select id="selectTeaList" resultMap="UserMap">
+        select * from user where type = 2
+    </select>
     <select id="getUserByPhone" resultMap="UserMap">
         select * from user where phone = #{phone}
     </select>

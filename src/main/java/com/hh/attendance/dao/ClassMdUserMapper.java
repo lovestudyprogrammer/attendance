@@ -12,6 +12,8 @@ public interface ClassMdUserMapper {
 
     ClassMdUser getClassMdUserById(@Param("id") Integer id);
 
+    ClassMdUser getMdUserByTeaId(@Param("teaId") Integer teaId);
+
     Collection<ClassMdUser> getByClassId(@Param("classId") Integer classId);
 
     int updateTeacherByClassIds(@Param("teacherId") int teacherId, @Param("classIds") int... classIds);

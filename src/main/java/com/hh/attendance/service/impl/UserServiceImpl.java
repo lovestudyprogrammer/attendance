@@ -1,5 +1,7 @@
 package com.hh.attendance.service.impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.hh.attendance.commons.CommonUtil;
 import com.hh.attendance.dao.UserMapper;
 import com.hh.attendance.enums.UserTypeEnum;
@@ -15,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Collection;
+import java.util.Map;
 
 /**
  * Copyright (C),2011-2019,杭州湖畔网络科技有限公司
@@ -81,6 +84,18 @@ public class UserServiceImpl implements UserService {
         }
         userByPhone.setPassword(user.getPassword());
         updateById(userByPhone);
+    }
+
+    @Override
+    public Page<User> findStuPage(int page, int size) {
+        PageHelper.startPage(page,size);
+        return (Page<User>)userMapper.selectStuList();
+    }
+
+    @Override
+    public Page<User> findTeaPage(int page, int size) {
+        PageHelper.startPage(page,size);
+        return (Page<User>)userMapper.selectTeaList();
     }
 
     @Override

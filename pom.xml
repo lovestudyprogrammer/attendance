@@ -36,6 +36,12 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
+        <!-- 分页 -->
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper</artifactId>
+            <version>4.1.4</version>
+        </dependency>
         <!-- druid数据库连接池 -->
         <dependency>
             <groupId>com.alibaba</groupId>

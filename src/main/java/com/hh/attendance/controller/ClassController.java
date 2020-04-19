@@ -9,6 +9,8 @@ import com.hh.attendance.service.ClassService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/attendance/class")
 public class ClassController {
@@ -20,6 +22,12 @@ public class ClassController {
     public ResultBody getClass(@RequestParam("classId") Integer classId) {
         Class className= classService.getClassById(classId);
         return ResultBody.success(className);
+    }
+
+    @GetMapping("/getClassList")
+    public ResultBody getClassList() {
+        List<Class> classList= classService.getClassList();
+        return ResultBody.success(classList);
     }
 
     @PostMapping("/addClass")

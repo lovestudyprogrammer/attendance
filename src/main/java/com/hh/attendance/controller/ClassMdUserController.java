@@ -14,7 +14,7 @@ public class ClassMdUserController {
     @Autowired
     private MdUserService mdUserService;
 
-    @GetMapping("/getMdUser")
+    @GetMapping("/getClassMdUserById")
     public ResultBody getMdUser(@RequestParam("id") Integer id) {
         ClassMdUser mdUser = mdUserService.getMdUserById(id);
         return ResultBody.success(mdUser);

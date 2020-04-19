@@ -14,6 +14,11 @@
     from class
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="getClassList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from class
+  </select>
   <delete id="deleteById" parameterType="java.lang.Integer" >
     delete from class
     where id = #{id,jdbcType=INTEGER}

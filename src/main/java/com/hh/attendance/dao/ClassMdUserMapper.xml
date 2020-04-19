@@ -18,6 +18,9 @@
     <select id="getClassMdUserById" resultMap="BaseResultMap">
         select * from class_md_user where student_id = #{id}
     </select>
+    <select id="getMdUserByTeaId" resultMap="BaseResultMap">
+        select * from class_md_user where teacher_id = #{teaId}
+    </select>
     <update id="updateTeacherByClassIds">
         update class_md_user set teacher_id = #{teacherId} where class_id in
         <foreach collection="classIds" item="classId" open="(" close=")" separator=",">

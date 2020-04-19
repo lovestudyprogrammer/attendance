@@ -8,6 +8,8 @@ public interface MdUserService {
 
     ClassMdUser getMdUserById(@RequestParam("id") Integer id);
 
+    ClassMdUser getMdUserByTeaId(@RequestParam("teaId") Integer teaId);
+
     int addMdUser(@RequestBody ClassMdUser record);
 
     int deleteById(@RequestParam("id") Integer id);

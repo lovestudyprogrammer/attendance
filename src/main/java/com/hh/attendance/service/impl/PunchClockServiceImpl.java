@@ -6,6 +6,8 @@ import com.hh.attendance.service.PunchClockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 @Service
 public class PunchClockServiceImpl implements PunchClockService {
 
@@ -24,6 +26,7 @@ public class PunchClockServiceImpl implements PunchClockService {
 
     @Override
     public int updateById(PunchClock record) {
+        record.setCreateTime(new Date());
         return punchClockMapper.updateById(record);
     }
 

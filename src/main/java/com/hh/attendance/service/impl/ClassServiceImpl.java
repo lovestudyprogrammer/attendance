@@ -6,6 +6,9 @@ import com.hh.attendance.service.ClassService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+import java.util.List;
+
 @Service
 public class ClassServiceImpl implements ClassService {
 
@@ -16,6 +19,11 @@ public class ClassServiceImpl implements ClassService {
     @Override
     public Class getClassById(Integer classId) {
         return classMapper.getClassById(classId);
+    }
+
+    @Override
+    public List getClassList() {
+        return classMapper.getClassList();
     }
 
     @Override

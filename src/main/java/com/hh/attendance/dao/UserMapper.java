@@ -4,6 +4,7 @@ import com.hh.attendance.pojo.User;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Collection;
+import java.util.List;
 
 public interface UserMapper {
     User getUserById(@Param("userId") Integer userId);
@@ -17,6 +18,10 @@ public interface UserMapper {
     int insert(@Param("vo") User user);
 
     int updateById(User record);
+
+    List<User> selectStuList();
+
+    List<User> selectTeaList();
 
     int deleteById(Integer id);
 }

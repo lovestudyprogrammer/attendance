@@ -1,9 +1,6 @@
 package com.hh.attendance.controller;
 
-import com.hh.attendance.commons.CommonUtil;
-import com.hh.attendance.commons.Constant;
-import com.hh.attendance.commons.ResultBody;
-import com.hh.attendance.commons.SessionHolder;
+import com.hh.attendance.commons.*;
 import com.hh.attendance.enums.UserTypeEnum;
 import com.hh.attendance.pojo.User;
 import com.hh.attendance.service.UserService;
@@ -11,9 +8,11 @@ import com.hh.attendance.vo.UserVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import com.github.pagehelper.Page;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
 /**
  * Copyright (C),2011-2019,杭州湖畔网络科技有限公司
@@ -102,6 +101,45 @@ public class UserController {
         int c = userService.updateById(user);
         return ResultBody.success(c);
     }
+    /***
+     * 分页查询学生列表
+     * @param page
+     * @param size
+     * @return
+     */
+    @GetMapping(value = "/stu/{page}/{size}" )
+    public ResultBody findStuPage(@PathVariable  int page, @PathVariable  int size){
+        User user = SessionHolder.getUser();
+        Integer type = user.getType();
+        if (type==0) {
+            Page<User> pageList = userService.findStuPage(page, size);
+            PageResult pageResult = new PageResult(pageList.getTotal(), pageList.getResult());
+            return ResultBody.success(pageResult);
+        }else {
+            return ResultBody.success("");
+        }
+    }
+
+    /***
+     * 分页查询老师列表
+     * @param page
+     * @param size
+     * @return
+     */
+    @GetMapping(value = "/tea/{page}/{size}" )
+        public ResultBody findTeaPage(@PathVariable  int page, @PathVariable  int size){
+        User user = SessionHolder.getUser();
+        Integer type = user.getType();
+        if (type==0){
+            Page<User> pageList = userService.findTeaPage(page, size);
+            PageResult pageResult=new PageResult(pageList.getTotal(),pageList.getResult());
+            return ResultBody.success(pageResult);
+        }else {
+            return ResultBody.success("");
+        }
+    }
+
+
 
     @PostMapping("/findPassword")
     public ResultBody findPassword(@RequestBody UserVo userVo) {

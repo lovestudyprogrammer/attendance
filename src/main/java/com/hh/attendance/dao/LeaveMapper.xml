@@ -23,6 +23,20 @@
     from leave
     where id = #{id,jdbcType=INTEGER}
   </select>
+
+  <select id="getLeavePage" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select
+    <include refid="Base_Column_List" />
+    from leave
+    where 1=1
+          <if test="classId !=null">
+            class_id = #{classId,jdbcType=INTEGER}
+          </if>
+          <if test="approvalState != null">
+            approval_state = #{approvalState,jdbcType=VARCHAR},
+          </if>
+  </select>
+
   <delete id="deleteById" parameterType="java.lang.Integer" >
     delete from leave
     where id = #{id,jdbcType=INTEGER}
