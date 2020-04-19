@@ -64,3 +64,6 @@ CREATE TABLE `user` (
   UNIQUE KEY `u_phone` (`phone`),
   UNIQUE KEY `u_name_password` (`username`,`password`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户表';
+
+-- 管理员
+insert into user(id,username,password,name,phone,sex,type) values (1,'admin','admin123','admin','0000',1,0);

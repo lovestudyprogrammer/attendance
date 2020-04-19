@@ -24,12 +24,15 @@
     <select id="listUserByType" resultMap="UserMap">
         select * from user where type = #{type}
     </select>
+    <select id="getUserByPhone" resultMap="UserMap">
+        select * from user where phone = #{phone}
+    </select>
     <insert id="insert" keyProperty="vo.id" keyColumn="id" useGeneratedKeys="true">
         insert into user (username,password,name,phone,sex,type,sno) values (#{vo.userName},#{vo.password},#{vo.name},#{vo.phone},#{vo.sex},#{vo.type},#{vo.sno})
     </insert>
-    <update id="updateById" parameterType="com.hh.attendance.pojo.User" >
-        update user
-            username = #{username,jdbcType=VARCHAR},
+    <update id="updateById" parameterType="com.hh.attendance.pojo.User">
+        update user set
+            username = #{userName,jdbcType=VARCHAR},
             password = #{password,jdbcType=INTEGER},
             name = #{name,jdbcType=VARCHAR},
             phone = #{phone,jdbcType=VARCHAR},
@@ -38,7 +41,7 @@
             sno = #{sno,jdbcType=VARCHAR}
         where id = #{id,jdbcType=INTEGER}
     </update>
-    <delete id="deleteById" parameterType="java.lang.Integer" >
+    <delete id="deleteById" parameterType="java.lang.Integer">
         delete from user
         where id = #{id,jdbcType=INTEGER}
     </delete>

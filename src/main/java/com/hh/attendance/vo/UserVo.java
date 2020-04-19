@@ -13,8 +13,17 @@ import lombok.Data;
  **/
 @Data
 public class UserVo extends User {
+    /**
+     * 用户类型名称
+     */
     private String typeName;
-
+    /**
+     * 班级ID
+     */
     private Integer classId;
+    /**
+     * 确认的密码
+     */
+    private String password1;
 
 }

@@ -54,7 +54,9 @@ public class UserServiceImpl implements UserService {
             }
             userMapper.insert(user);
             // 班级
-            mdUserService.saveClassMdUser(user.getId(), userVo.getClassId());
+            if (userVo.getClassId() != null) {
+                mdUserService.saveClassMdUser(user.getId(), userVo.getClassId());
+            }
         } catch (DuplicateKeyException e) {
             duplicateKey(e);
         }
@@ -68,7 +70,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int updateById(User record) {
+    public void updateUserPassword(@RequestBody User user) {
+        String phone = user.getPhone();
+        User userByPhone = userMapper.getUserByPhone(phone);
+        if (userByPhone == null) {
+            throw new RuntimeException("手机号输入有误");
+        }
+        if (!userByPhone.getName().equals(user.getName())) {
+            throw new RuntimeException("姓名输入有误");
+        }
+        userByPhone.setPassword(user.getPassword());
+        updateById(userByPhone);
+    }
+
+    @Override
+    public int updateById(@RequestBody User record) {
         return userMapper.updateById(record);
     }
 

@@ -23,6 +23,8 @@ public interface UserService {
      */
     Collection<User> listByUserType(@RequestParam("type") int type);
 
+    void updateUserPassword(@RequestBody User user);
+
 
     int updateById(@RequestBody User record);
 

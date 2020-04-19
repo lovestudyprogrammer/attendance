@@ -68,6 +68,12 @@ public class UserController {
     @PostMapping("/register")
     public ResultBody register(@RequestBody UserVo userVo) {
         checkUserAugrment(userVo);
+        if (userVo.getType() == UserTypeEnum.STUDENT.getId()) {
+            CommonUtil.ckeckAugrmentIsNull(userVo.getClassId(), "请选择所在班级");
+        }
+        if (!userVo.getPassword().equals(userVo.getPassword1())) {
+            throw new RuntimeException("两次输入的密码不一致");
+        }
         int userId = userService.addUser(userVo);
         return ResultBody.success(userId);
     }
@@ -92,8 +98,22 @@ public class UserController {
 
     @PostMapping("/updateUser")
     public ResultBody updateUser(@RequestBody User user) {
+        checkUserAugrment(user);
         int c = userService.updateById(user);
         return ResultBody.success(c);
+    }
+
+    @PostMapping("/findPassword")
+    public ResultBody findPassword(@RequestBody UserVo userVo) {
+        CommonUtil.ckeckAugrmentIsNull(userVo.getName(), "姓名不能为空");
+        CommonUtil.ckeckAugrmentIsNull(userVo.getPhone(), "手机号不能为空");
+        CommonUtil.ckeckAugrmentIsNull(userVo.getPassword(), "请输入新的密码");
+        CommonUtil.ckeckAugrmentIsNull(userVo.getPassword1(), "请再次确认新的密码");
+        if (!userVo.getPassword().equals(userVo.getPassword1())) {
+            throw new RuntimeException("两次输入的密码不一致");
+        }
+        userService.updateUserPassword(userVo);
+        return ResultBody.success("");
     }
 
     @RequestMapping("/delUser")
@@ -102,15 +122,12 @@ public class UserController {
         return ResultBody.success(i);
     }
 
-    private void checkUserAugrment(UserVo user) {
+    private void checkUserAugrment(User user) {
         CommonUtil.ckeckAugrmentIsNull(user.getUserName(), "用户昵称不能为空");
         CommonUtil.ckeckAugrmentIsNull(user.getPassword(), "密码不能为空");
         CommonUtil.ckeckAugrmentIsNull(user.getName(), "请输入真实姓名");
         CommonUtil.ckeckAugrmentIsNull(user.getPhone(), "手机号码不能为空");
         CommonUtil.ckeckAugrmentIsNull(user.isSex(), "性别不能为空");
         CommonUtil.ckeckAugrmentIsNull(user.getType(), "请选择类型");
-        if (user.getType() == UserTypeEnum.STUDENT.getId()) {
-            CommonUtil.ckeckAugrmentIsNull(user.getClassId(), "请选择所在班级");
-        }
     }
 }

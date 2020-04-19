@@ -10,6 +10,8 @@ public interface UserMapper {
 
     User getUserByUserNameAndPassword(@Param("username") String userName, @Param("password") String password);
 
+    User getUserByPhone(@Param("phone") String phone);
+
     Collection<User> listUserByType(@Param("type") int type);
 
     int insert(@Param("vo") User user);
