@@ -1,10 +1,21 @@
 package com.hh.attendance.controller;
 
+import com.github.pagehelper.Page;
+import com.hh.attendance.commons.PageResult;
 import com.hh.attendance.commons.ResultBody;
+import com.hh.attendance.commons.SessionHolder;
+import com.hh.attendance.pojo.ClassMdUser;
+import com.hh.attendance.pojo.Leave;
 import com.hh.attendance.pojo.PunchClock;
+import com.hh.attendance.pojo.User;
+import com.hh.attendance.service.MdUserService;
 import com.hh.attendance.service.PunchClockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/attendance/punchClock")
@@ -12,6 +23,28 @@ public class PunchClockController {
 
     @Autowired
     private PunchClockService punchClockService;
+    @Autowired
+    private MdUserService mdUserService;
+
+    /**
+     * 学生签到考勤列表
+     * @return
+     */
+    @GetMapping("/getPunchClockPage")
+    public ResultBody getPunchClockPage(int page, int size) {
+        Map<String,Object> searchMap = new HashMap<>();
+        //获取当前用户类型
+        User user = SessionHolder.getUser();
+        if (user.getType()==2){
+            ClassMdUser mdUser = mdUserService.getMdUserById(user.getId());
+            searchMap.put("classId",mdUser.getClassId());
+        }else if (user.getType()==1){
+            return ResultBody.success("");
+        }
+        Page<PunchClock> pageList = punchClockService.getPunchClockPage(searchMap, page, size);
+        PageResult pageResult = new PageResult(pageList.getTotal(), pageList.getResult());
+        return ResultBody.success(pageResult);
+    }
 
     @GetMapping("/getPunchClock")
     public ResultBody getClass(@RequestParam("id") Integer id) {
@@ -19,8 +52,18 @@ public class PunchClockController {
         return ResultBody.success(punchClock);
     }
 
+    /**
+     * 学生考勤打卡
+     * @param punchClock
+     * @return
+     */
     @PostMapping("/addPunchClock")
     public ResultBody addPunchClock(@RequestBody PunchClock punchClock) {
+        User user = SessionHolder.getUser();
+        punchClock.setStuId(user.getId());
+        ClassMdUser mdUser = mdUserService.getMdUserById(user.getId());
+        punchClock.setClassId(mdUser.getClassId());
+        punchClock.setCreateTime(new Date());
         int c= punchClockService.addPunchClock(punchClock);
         return ResultBody.success(c);
     }

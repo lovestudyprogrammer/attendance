@@ -8,6 +8,11 @@
   <sql id="Base_Column_List" >
     id, type_name
   </sql>
+  <select id="getPunchClockTypeList" resultMap="com.hh.attendance.pojo.PunchClockType">
+    select
+    <include refid="Base_Column_List" />
+    from punch_clock_type
+  </select>
   <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />

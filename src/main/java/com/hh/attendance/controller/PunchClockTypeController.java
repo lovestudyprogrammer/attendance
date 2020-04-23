@@ -6,12 +6,25 @@ import com.hh.attendance.service.PunchClockTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/attendance/punchClockType")
 public class PunchClockTypeController {
 
     @Autowired
     private PunchClockTypeService punchClockTypeService;
+
+    /**
+     * 查询考勤类型
+     * @return
+     */
+    @GetMapping("/getPunchClockTypeList")
+    public ResultBody getPunchClockTypeList() {
+        List<PunchClockType> punchClockTypeList= punchClockTypeService.getPunchClockTypeList();
+        return ResultBody.success(punchClockTypeList);
+    }
+
 
     @GetMapping("/getPunchClockType")
     public ResultBody getPunchClockType(@RequestParam("classId") Integer id) {

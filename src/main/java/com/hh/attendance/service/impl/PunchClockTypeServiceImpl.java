@@ -6,11 +6,18 @@ import com.hh.attendance.service.PunchClockTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PunchClockTypeServiceImpl implements PunchClockTypeService {
 
     @Autowired
     private PunchClockTypeMapper punchClockTypeMapper;
+
+    @Override
+    public List<PunchClockType> getPunchClockTypeList() {
+        return punchClockTypeMapper.getPunchClockTypeList();
+    }
 
     @Override
     public PunchClockType getPunchClockTypeById(Integer id) {

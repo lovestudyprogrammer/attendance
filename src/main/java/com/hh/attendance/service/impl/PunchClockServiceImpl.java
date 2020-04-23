@@ -1,12 +1,16 @@
 package com.hh.attendance.service.impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.hh.attendance.dao.PunchClockMapper;
+import com.hh.attendance.pojo.Leave;
 import com.hh.attendance.pojo.PunchClock;
 import com.hh.attendance.service.PunchClockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.Map;
 
 @Service
 public class PunchClockServiceImpl implements PunchClockService {
@@ -17,6 +21,12 @@ public class PunchClockServiceImpl implements PunchClockService {
     @Override
     public PunchClock getPunchClockById(Integer id) {
         return punchClockMapper.selectById(id);
+    }
+
+    @Override
+    public Page<PunchClock> getPunchClockPage(Map<String, Object> searchMap, int page, int size) {
+        PageHelper.startPage(page,size);
+        return (Page<PunchClock>)punchClockMapper.getPunchClockPage(searchMap);
     }
 
     @Override
