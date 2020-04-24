@@ -107,8 +107,8 @@ public class UserController {
      * @param size
      * @return
      */
-    @GetMapping(value = "/stu/{page}/{size}" )
-    public ResultBody findStuPage(@PathVariable  int page, @PathVariable  int size){
+    @GetMapping(value = "/getStuPage" )
+    public ResultBody findStuPage(int page,int size){
         User user = SessionHolder.getUser();
         Integer type = user.getType();
         if (type==0) {
@@ -126,8 +126,8 @@ public class UserController {
      * @param size
      * @return
      */
-    @GetMapping(value = "/tea/{page}/{size}" )
-        public ResultBody findTeaPage(@PathVariable  int page, @PathVariable  int size){
+    @GetMapping(value = "/getTeaPage" )
+        public ResultBody findTeaPage(int page, int size){
         User user = SessionHolder.getUser();
         Integer type = user.getType();
         if (type==0){
