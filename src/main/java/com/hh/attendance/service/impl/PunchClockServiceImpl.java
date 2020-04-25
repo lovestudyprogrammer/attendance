@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -24,9 +25,8 @@ public class PunchClockServiceImpl implements PunchClockService {
     }
 
     @Override
-    public Page<PunchClock> getPunchClockPage(Map<String, Object> searchMap, int page, int size) {
-        PageHelper.startPage(page,size);
-        return (Page<PunchClock>)punchClockMapper.getPunchClockPage(searchMap);
+    public List<PunchClock> getPunchClockPage(Map<String, Object> searchMap) {
+        return punchClockMapper.getPunchClockPage(searchMap);
     }
 
     @Override

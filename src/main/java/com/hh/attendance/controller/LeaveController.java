@@ -1,17 +1,21 @@
 package com.hh.attendance.controller;
 
 import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.hh.attendance.commons.PageResult;
 import com.hh.attendance.commons.ResultBody;
 import com.hh.attendance.commons.SessionHolder;
 import com.hh.attendance.pojo.ClassMdUser;
 import com.hh.attendance.pojo.Leave;
+import com.hh.attendance.pojo.PunchClock;
 import com.hh.attendance.pojo.User;
 import com.hh.attendance.service.LeaveService;
 import com.hh.attendance.service.MdUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -60,13 +64,15 @@ public class LeaveController {
         if (type == 2) {
             ClassMdUser mdUser = mdUserService.getMdUserByTeaId(user.getId());
             searchMap.put("classId", mdUser.getClassId());
-            Page<Leave> pageList = leaveService.getLeavePage(searchMap, page, size);
-            PageResult pageResult = new PageResult(pageList.getTotal(), pageList.getResult());
-            return ResultBody.success(pageResult);
+            List<Leave> pageList = leaveService.getLeavePage(searchMap);
+            PageHelper.startPage(page,size,true);
+            PageInfo<Leave> leavePage = new PageInfo<>(pageList);
+            return ResultBody.success(leavePage);
         } else if (type == 0) {
-            Page<Leave> pageList = leaveService.getLeavePage(searchMap, page, size);
-            PageResult pageResult = new PageResult(pageList.getTotal(), pageList.getResult());
-            return ResultBody.success(pageResult);
+            List<Leave> pageList = leaveService.getLeavePage(searchMap);
+            PageHelper.startPage(page,size,true);
+            PageInfo<Leave> leavePage = new PageInfo<>(pageList);
+            return ResultBody.success(leavePage);
         } else {
             return ResultBody.success("");
         }

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -40,8 +41,7 @@ public class LeaveServiceImpl implements LeaveService {
     }
 
     @Override
-    public Page<Leave> getLeavePage(Map<String, Object> searchMap, int page, int size) {
-        PageHelper.startPage(page,size);
-        return (Page<Leave>)leaveMapper.getLeavePage(searchMap);
+    public List<Leave> getLeavePage(Map<String, Object> searchMap) {
+        return leaveMapper.getLeavePage(searchMap);
     }
 }

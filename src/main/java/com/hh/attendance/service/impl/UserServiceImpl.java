@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -87,15 +88,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Page<User> findStuPage(int page, int size) {
-        PageHelper.startPage(page,size);
-        return (Page<User>)userMapper.selectStuList();
+    public List<User> findStu() {
+        return userMapper.selectStuList();
     }
 
     @Override
-    public Page<User> findTeaPage(int page, int size) {
-        PageHelper.startPage(page,size);
-        return (Page<User>)userMapper.selectTeaList();
+    public List<User> findTea() {
+        return userMapper.selectTeaList();
     }
 
     @Override

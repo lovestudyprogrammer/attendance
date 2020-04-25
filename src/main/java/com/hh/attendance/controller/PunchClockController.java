@@ -1,6 +1,8 @@
 package com.hh.attendance.controller;
 
 import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.hh.attendance.commons.PageResult;
 import com.hh.attendance.commons.ResultBody;
 import com.hh.attendance.commons.SessionHolder;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -41,9 +44,10 @@ public class PunchClockController {
         } else if (user.getType() == 2) {
             return ResultBody.success("");
         }
-        Page<PunchClock> pageList = punchClockService.getPunchClockPage(searchMap, page, size);
-        PageResult pageResult = new PageResult(pageList.getTotal(), pageList.getResult());
-        return ResultBody.success(pageResult);
+        List<PunchClock> pageList = punchClockService.getPunchClockPage(searchMap);
+        PageHelper.startPage(page,size,true);
+        PageInfo<PunchClock> punchPage = new PageInfo<>(pageList);
+        return ResultBody.success(punchPage);
     }
 
     @GetMapping("/getPunchClock")

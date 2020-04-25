@@ -5,6 +5,7 @@ import com.hh.attendance.pojo.Leave;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
 import java.util.Map;
 
 public interface LeaveService {
@@ -17,7 +18,7 @@ public interface LeaveService {
 
     int deleteById(@RequestParam("id") Integer id);
 
-    Page<Leave> getLeavePage(Map<String,Object> searchMap, int page, int size);
+    List<Leave> getLeavePage(Map<String,Object> searchMap);
 
 
 }

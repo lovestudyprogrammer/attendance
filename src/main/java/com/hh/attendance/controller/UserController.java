@@ -1,7 +1,10 @@
 package com.hh.attendance.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.hh.attendance.commons.*;
 import com.hh.attendance.enums.UserTypeEnum;
+import com.hh.attendance.pojo.PunchClock;
 import com.hh.attendance.pojo.User;
 import com.hh.attendance.service.UserService;
 import com.hh.attendance.vo.UserVo;
@@ -12,6 +15,7 @@ import com.github.pagehelper.Page;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -112,9 +116,10 @@ public class UserController {
         User user = SessionHolder.getUser();
         Integer type = user.getType();
         if (type==0) {
-            Page<User> pageList = userService.findStuPage(page, size);
-            PageResult pageResult = new PageResult(pageList.getTotal(), pageList.getResult());
-            return ResultBody.success(pageResult);
+            List<User> pageList = userService.findStu();
+            PageHelper.startPage(page,size,true);
+            PageInfo<User> userPage = new PageInfo<>(pageList);
+            return ResultBody.success(userPage);
         }else {
             return ResultBody.success("");
         }
@@ -131,9 +136,10 @@ public class UserController {
         User user = SessionHolder.getUser();
         Integer type = user.getType();
         if (type==0){
-            Page<User> pageList = userService.findTeaPage(page, size);
-            PageResult pageResult=new PageResult(pageList.getTotal(),pageList.getResult());
-            return ResultBody.success(pageResult);
+            List<User> pageList = userService.findTea();
+            PageHelper.startPage(page,size,true);
+            PageInfo<User> userPage = new PageInfo<>(pageList);
+            return ResultBody.success(userPage);
         }else {
             return ResultBody.success("");
         }

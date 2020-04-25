@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 public interface UserService {
@@ -28,20 +29,16 @@ public interface UserService {
     void updateUserPassword(@RequestBody User user);
 
     /***
-     * 分页查询学生列表
-     * @param page
-     * @param size
+     * 查询学生列表
      * @return
      */
-    Page<User> findStuPage(int page, int size);
+    List<User> findStu();
 
     /***
-     * 分页查询老师列表
-     * @param page
-     * @param size
+     * 查询老师列表
      * @return
      */
-    Page<User> findTeaPage(int page, int size);
+    List<User> findTea();
 
 
     int updateById(@RequestBody User record);
