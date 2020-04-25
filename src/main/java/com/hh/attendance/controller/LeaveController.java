@@ -25,7 +25,7 @@ public class LeaveController {
 
     @GetMapping("/getLeave")
     public ResultBody getLeave(@RequestParam("id") Integer id) {
-        Leave leave= leaveService.getLeaveById(id);
+        Leave leave = leaveService.getLeaveById(id);
         return ResultBody.success(leave);
     }
 
@@ -36,13 +36,14 @@ public class LeaveController {
         ClassMdUser mdUser = mdUserService.getMdUserById(user.getId());
         leave.setClassId(mdUser.getClassId());
         leave.setApprovalState(0);
-        int c= leaveService.addLeave(leave);
+        leave.setStuId(user.getId());
+        int c = leaveService.addLeave(leave);
         return ResultBody.success(c);
     }
 
     @PostMapping("/updateLeave")
     public ResultBody updateLeave(@RequestBody Leave leave) {
-        int c= leaveService.updateById(leave);
+        int c = leaveService.updateById(leave);
         return ResultBody.success(c);
     }
 
@@ -53,7 +54,7 @@ public class LeaveController {
     }
 
     @RequestMapping("/getLeavePage")
-    public ResultBody getLeavePage(Map<String,Object> searchMap, int page, int size) {
+    public ResultBody getLeavePage(Map<String, Object> searchMap, int page, int size) {
         User user = SessionHolder.getUser();
         Integer type = user.getType();
         if (type == 2) {
@@ -62,7 +63,7 @@ public class LeaveController {
             Page<Leave> pageList = leaveService.getLeavePage(searchMap, page, size);
             PageResult pageResult = new PageResult(pageList.getTotal(), pageList.getResult());
             return ResultBody.success(pageResult);
-        } else if(type ==0){
+        } else if (type == 0) {
             Page<Leave> pageList = leaveService.getLeavePage(searchMap, page, size);
             PageResult pageResult = new PageResult(pageList.getTotal(), pageList.getResult());
             return ResultBody.success(pageResult);

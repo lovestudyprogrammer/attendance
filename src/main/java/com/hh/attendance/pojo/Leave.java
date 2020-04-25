@@ -1,5 +1,6 @@
 package com.hh.attendance.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.util.Date;
@@ -12,8 +13,10 @@ public class Leave {
 
     private Integer classId;
 
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date leaveStart;
 
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date leaveEnd;
 
     private Date creatTime;

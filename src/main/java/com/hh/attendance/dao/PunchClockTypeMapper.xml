@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.hh.attendance.dao.PunchClockTypeMapper" >
-  <resultMap id="BaseResultMap" type="com.hh.attendance.pojo.PunchClockType" >
-    <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="type_name" property="typeName" jdbcType="VARCHAR" />
-  </resultMap>
-  <sql id="Base_Column_List" >
+<mapper namespace="com.hh.attendance.dao.PunchClockTypeMapper">
+    <resultMap id="BaseResultMap" type="com.hh.attendance.pojo.PunchClockType">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="type_name" property="typeName" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
     id, type_name
   </sql>
-  <select id="getPunchClockTypeList" resultMap="com.hh.attendance.pojo.PunchClockType">
-    select
-    <include refid="Base_Column_List" />
-    from punch_clock_type
-  </select>
-  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from punch_clock_type
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteById" parameterType="java.lang.Integer" >
+    <select id="getPunchClockTypeList" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from punch_clock_type
+    </select>
+    <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from punch_clock_type
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteById" parameterType="java.lang.Integer">
     delete from punch_clock_type
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.hh.attendance.pojo.PunchClockType" >
+    <insert id="insert" parameterType="com.hh.attendance.pojo.PunchClockType">
     insert into punch_clock_type (id, type_name)
     values (#{id,jdbcType=INTEGER}, #{typeName,jdbcType=VARCHAR})
   </insert>
-  <update id="updateById" parameterType="com.hh.attendance.pojo.PunchClockType" >
+    <update id="updateById" parameterType="com.hh.attendance.pojo.PunchClockType">
     update punch_clock_type
     set type_name = #{typeName,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}

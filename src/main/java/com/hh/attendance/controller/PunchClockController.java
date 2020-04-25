@@ -5,7 +5,6 @@ import com.hh.attendance.commons.PageResult;
 import com.hh.attendance.commons.ResultBody;
 import com.hh.attendance.commons.SessionHolder;
 import com.hh.attendance.pojo.ClassMdUser;
-import com.hh.attendance.pojo.Leave;
 import com.hh.attendance.pojo.PunchClock;
 import com.hh.attendance.pojo.User;
 import com.hh.attendance.service.MdUserService;
@@ -28,17 +27,18 @@ public class PunchClockController {
 
     /**
      * 学生签到考勤列表
+     *
      * @return
      */
     @GetMapping("/getPunchClockPage")
     public ResultBody getPunchClockPage(int page, int size) {
-        Map<String,Object> searchMap = new HashMap<>();
+        Map<String, Object> searchMap = new HashMap<>();
         //获取当前用户类型
         User user = SessionHolder.getUser();
-        if (user.getType()==2){
+        if (user.getType() == 1) {
             ClassMdUser mdUser = mdUserService.getMdUserById(user.getId());
-            searchMap.put("classId",mdUser.getClassId());
-        }else if (user.getType()==1){
+            searchMap.put("classId", mdUser.getClassId());
+        } else if (user.getType() == 2) {
             return ResultBody.success("");
         }
         Page<PunchClock> pageList = punchClockService.getPunchClockPage(searchMap, page, size);
@@ -48,12 +48,13 @@ public class PunchClockController {
 
     @GetMapping("/getPunchClock")
     public ResultBody getClass(@RequestParam("id") Integer id) {
-        PunchClock punchClock= punchClockService.getPunchClockById(id);
+        PunchClock punchClock = punchClockService.getPunchClockById(id);
         return ResultBody.success(punchClock);
     }
 
     /**
      * 学生考勤打卡
+     *
      * @param punchClock
      * @return
      */
@@ -64,13 +65,13 @@ public class PunchClockController {
         ClassMdUser mdUser = mdUserService.getMdUserById(user.getId());
         punchClock.setClassId(mdUser.getClassId());
         punchClock.setCreateTime(new Date());
-        int c= punchClockService.addPunchClock(punchClock);
+        int c = punchClockService.addPunchClock(punchClock);
         return ResultBody.success(c);
     }
 
     @PostMapping("/updatePunchClock")
     public ResultBody updatePunchClock(@RequestBody PunchClock punchClock) {
-        int c= punchClockService.updateById(punchClock);
+        int c = punchClockService.updateById(punchClock);
         return ResultBody.success(c);
     }
 
