@@ -26,11 +26,23 @@
         <if test="classId !=null">
             and class_id = #{classId}
         </if>
+        <if test="classIds !=null and classIds.size &gt; 0">
+            and class_id in
+            <foreach collection="classIds" item="classId" open="(" close=")" separator=",">
+                #{classId}
+            </foreach>
+        </if>
     </select>
     <delete id="deleteById" parameterType="java.lang.Integer">
     delete from punch_clock
     where id = #{id,jdbcType=INTEGER}
   </delete>
+    <delete id="deleteByClassId">
+        delete from punch_clock where class_id = #{classId,jdbcType=INTEGER}
+    </delete>
+    <delete id="deleteByStuId">
+        delete from punch_clock where stu_id = #{studentId,jdbcType=INTEGER}
+    </delete>
     <insert id="insert" parameterType="com.hh.attendance.pojo.PunchClock">
     insert into punch_clock (id, class_id, stu_id, 
       punch_clock_type_id, create_time, remark

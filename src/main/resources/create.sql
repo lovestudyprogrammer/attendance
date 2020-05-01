@@ -18,7 +18,7 @@ CREATE TABLE `class_md_user` (
 
 DROP TABLE IF EXISTS `leave`;
 CREATE TABLE `leave` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `stu_id` int(11) NOT NULL COMMENT '学生id',
   `class_id` int(11) NOT NULL COMMENT '班级id',
   `leave_start` datetime NOT NULL COMMENT '请假开始时间',
@@ -27,7 +27,7 @@ CREATE TABLE `leave` (
   `cause` varchar(255) NOT NULL COMMENT '请假原因',
   `approval_state` int(11) unsigned zerofill NOT NULL COMMENT '审批状态，0为审批中，1为审批通过，2为审批不通过',
   `approval_opinion` varchar(255) DEFAULT NULL COMMENT '审批意见',
-  `approval_time` timestamp(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '审批时间',
+  `approval_time` datetime DEFAULT NULL COMMENT '审批时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='请假表';
 

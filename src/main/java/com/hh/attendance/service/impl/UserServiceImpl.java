@@ -1,8 +1,9 @@
 package com.hh.attendance.service.impl;
 
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
 import com.hh.attendance.commons.CommonUtil;
+import com.hh.attendance.dao.ClassMdUserMapper;
+import com.hh.attendance.dao.LeaveMapper;
+import com.hh.attendance.dao.PunchClockMapper;
 import com.hh.attendance.dao.UserMapper;
 import com.hh.attendance.enums.UserTypeEnum;
 import com.hh.attendance.pojo.User;
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Copyright (C),2011-2019,杭州湖畔网络科技有限公司
@@ -35,6 +35,12 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
     @Autowired
     private MdUserService mdUserService;
+    @Autowired
+    private LeaveMapper leaveMapper;
+    @Autowired
+    private PunchClockMapper punchClockMapper;
+    @Autowired
+    private ClassMdUserMapper classMdUserMapper;
 
     @Override
     public User getUserById(Integer userId) {
@@ -98,13 +104,28 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int updateById(@RequestBody User record) {
-        return userMapper.updateById(record);
+    public void updateById(@RequestBody User record) {
+        try {
+            userMapper.updateById(record);
+        } catch (DuplicateKeyException e) {
+            duplicateKey(e);
+        }
     }
 
     @Override
-    public int deleteById(Integer id) {
-        return userMapper.deleteById(id);
+    @Transactional
+    public void deleteById(Integer id) {
+        User userById = getUserById(id);
+        if (userById != null) {
+            if (userById.getType() == UserTypeEnum.STUDENT.getId()) {
+                mdUserService.deleteById(id);
+                leaveMapper.deleteByStuId(id);
+                punchClockMapper.deleteByStuId(id);
+            } else if (userById.getType() == UserTypeEnum.TEACHER.getId()) {
+                classMdUserMapper.deleteByTeacherId(id);
+            }
+        }
+        userMapper.deleteById(id);
     }
 
     private void duplicateKey(DuplicateKeyException e) {

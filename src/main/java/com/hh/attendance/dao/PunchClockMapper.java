@@ -1,6 +1,5 @@
 package com.hh.attendance.dao;
 
-import com.hh.attendance.pojo.Leave;
 import com.hh.attendance.pojo.PunchClock;
 
 import java.util.List;
@@ -11,9 +10,13 @@ public interface PunchClockMapper {
 
     int insert(PunchClock record);
 
-    List<PunchClock> getPunchClockPage(Map<String,Object> searchMap);
+    List<PunchClock> getPunchClockPage(Map<String, Object> searchMap);
 
     PunchClock selectById(Integer id);
 
     int updateById(PunchClock record);
+
+    int deleteByClassId(int classId);
+
+    int deleteByStuId(Integer studentId);
 }

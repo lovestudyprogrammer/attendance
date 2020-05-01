@@ -22,6 +22,10 @@ public class UserVo extends User {
      */
     private Integer classId;
     /**
+     * 班级名称
+     */
+    private String className;
+    /**
      * 确认的密码
      */
     private String password1;

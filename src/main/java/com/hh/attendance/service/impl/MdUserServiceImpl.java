@@ -26,8 +26,18 @@ public class MdUserServiceImpl implements MdUserService {
     }
 
     @Override
-    public ClassMdUser getMdUserByTeaId(Integer teaId) {
+    public Collection<ClassMdUser> listByIds(int... ids) {
+        return classMdUserMapper.listByIds(ids);
+    }
+
+    @Override
+    public Collection<ClassMdUser> getMdUserByTeaId(Integer teaId) {
         return classMdUserMapper.getMdUserByTeaId(teaId);
+    }
+
+    @Override
+    public Collection<ClassMdUser> getMdUserByTeaIds(int... teaIds) {
+        return classMdUserMapper.getMdUserByTeaIds(teaIds);
     }
 
     @Override

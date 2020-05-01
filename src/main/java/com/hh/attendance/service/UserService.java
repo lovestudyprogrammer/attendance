@@ -1,6 +1,5 @@
 package com.hh.attendance.service;
 
-import com.github.pagehelper.Page;
 import com.hh.attendance.pojo.User;
 import com.hh.attendance.vo.UserVo;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -8,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 public interface UserService {
     User getUserById(@RequestParam("userId") Integer userId);
@@ -41,7 +39,7 @@ public interface UserService {
     List<User> findTea();
 
 
-    int updateById(@RequestBody User record);
+    void updateById(@RequestBody User record);
 
-    int deleteById(@RequestParam("id") Integer id);
+    void deleteById(@RequestParam("id") Integer id);
 }

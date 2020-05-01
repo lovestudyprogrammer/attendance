@@ -1,9 +1,6 @@
 package com.hh.attendance.service.impl;
 
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
 import com.hh.attendance.dao.PunchClockMapper;
-import com.hh.attendance.pojo.Leave;
 import com.hh.attendance.pojo.PunchClock;
 import com.hh.attendance.service.PunchClockService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,5 +40,10 @@ public class PunchClockServiceImpl implements PunchClockService {
     @Override
     public int deleteById(Integer id) {
         return punchClockMapper.deleteById(id);
+    }
+
+    @Override
+    public void deleteByClassId(int classId) {
+        punchClockMapper.deleteByClassId(classId);
     }
 }

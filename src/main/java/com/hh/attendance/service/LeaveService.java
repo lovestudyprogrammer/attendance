@@ -1,6 +1,5 @@
 package com.hh.attendance.service;
 
-import com.github.pagehelper.Page;
 import com.hh.attendance.pojo.Leave;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,7 +17,9 @@ public interface LeaveService {
 
     int deleteById(@RequestParam("id") Integer id);
 
-    List<Leave> getLeavePage(Map<String,Object> searchMap);
+    List<Leave> getLeavePage(Map<String, Object> searchMap);
+
+    void updateApprovalStatus(@RequestParam("status") int status, @RequestParam("approvalOpinion") String approvalOpinion, @RequestParam("ids") int... ids);
 
 
 }

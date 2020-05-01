@@ -7,10 +7,15 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     url: "jdbc:mysql://127.0.0.1:3306/attendance?useUnicode=true&characterEncoding=utf8&characterSetResults=utf8"
     username: root
-    password: root
+    password: 123456
     type: com.alibaba.druid.pool.DruidDataSource
 logging:
   level:
     com:
       hh:
         attendance: debug
+pagehelper:
+  auto-dialect: mysql
+  params: count=countSql
+  reasonable: true
+  support-methods-arguments: true

@@ -17,39 +17,47 @@
     id, stu_id, class_id, leave_start, leave_end, creat_time, cause, approval_state, 
     approval_opinion, approval_time
   </sql>
+    <insert id="insert">
+        INSERT INTO `leave`(stu_id,class_id,leave_start,leave_end,creat_time,cause,approval_state,approval_opinion) VALUES (#{vo.stuId},#{vo.classId},#{vo.leaveStart},#{vo.leaveEnd},CURRENT_TIMESTAMP(3),#{vo.cause},#{vo.approvalState},#{vo.approvalOpinion})
+    </insert>
     <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
         <include refid="Base_Column_List"/>
-        from leave
+        from `leave`
         where id = #{id,jdbcType=INTEGER}
     </select>
 
     <select id="getLeavePage" resultMap="BaseResultMap" parameterType="java.util.Map">
         select
         <include refid="Base_Column_List"/>
-        from leave
+        from `leave`
         where 1=1
         <if test="classId !=null">
-            class_id = #{classId,jdbcType=INTEGER}
+            and class_id = #{classId,jdbcType=INTEGER}
         </if>
         <if test="approvalState != null">
-            approval_state = #{approvalState,jdbcType=VARCHAR},
+            and approval_state = #{approvalState,jdbcType=VARCHAR}
+        </if>
+        <if test="studentId != null">
+            and stu_id = #{studentId}
+        </if>
+        <if test="classIds !=null and classIds.size &gt; 0">
+            and class_id in
+            <foreach collection="classIds" item="classId" open="(" close=")" separator=",">
+                #{classId}
+            </foreach>
         </if>
     </select>
 
     <delete id="deleteById" parameterType="java.lang.Integer">
-    delete from leave
+    delete from `leave`
     where id = #{id,jdbcType=INTEGER}
   </delete>
-    <insert id="insert" parameterType="com.hh.attendance.pojo.Leave">
-    insert into leave(id,stu_id,class_id,leave_start,leave_end,creat_time,cause,approval_state,approval_opinion,approval_time)
-    values (#{id,jdbcType=INTEGER}, #{stuId,jdbcType=INTEGER}, #{classId,jdbcType=INTEGER},
-      #{leaveStart,jdbcType=TIMESTAMP}, #{leaveEnd,jdbcType=TIMESTAMP}, CURRENT_TIMESTAMP(3),
-      #{cause,jdbcType=VARCHAR}, #{approvalState,jdbcType=INTEGER}, #{approvalOpinion,jdbcType=VARCHAR},
-      #{approvalTime,jdbcType=TIMESTAMP})
-  </insert>
+    <delete id="deleteByStuId">
+        delete from `leave` where stu_id = #{studentId,jdbcType=INTEGER}
+    </delete>
     <update id="updateById" parameterType="com.hh.attendance.pojo.Leave">
-    update leave
+    update `leave`
     set stu_id = #{stuId,jdbcType=INTEGER},
       class_id = #{classId,jdbcType=INTEGER},
       leave_start = #{leaveStart,jdbcType=TIMESTAMP},
@@ -61,4 +69,19 @@
       approval_time = #{approvalTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+    <update id="updateApprovalStatus">
+        update `leave`
+        <set>
+            <if test="approvalOpinion != null">
+                approval_opinion = #{approvalOpinion},
+            </if>
+            approval_state = #{status},approval_time = CURRENT_TIMESTAMP(3)
+        </set>
+        <where>
+            id in
+            <foreach collection="ids" item="id" open="(" close=")" separator=",">
+                #{id}
+            </foreach>
+        </where>
+    </update>
 </mapper>

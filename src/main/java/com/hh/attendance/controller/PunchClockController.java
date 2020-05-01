@@ -1,23 +1,22 @@
 package com.hh.attendance.controller;
 
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.hh.attendance.commons.PageResult;
+import com.hh.attendance.commons.CommonUtil;
 import com.hh.attendance.commons.ResultBody;
 import com.hh.attendance.commons.SessionHolder;
-import com.hh.attendance.pojo.ClassMdUser;
-import com.hh.attendance.pojo.PunchClock;
-import com.hh.attendance.pojo.User;
-import com.hh.attendance.service.MdUserService;
-import com.hh.attendance.service.PunchClockService;
+import com.hh.attendance.enums.UserTypeEnum;
+import com.hh.attendance.pojo.Class;
+import com.hh.attendance.pojo.*;
+import com.hh.attendance.service.*;
+import com.hh.attendance.vo.PunchClockVo;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/attendance/punchClock")
@@ -27,6 +26,12 @@ public class PunchClockController {
     private PunchClockService punchClockService;
     @Autowired
     private MdUserService mdUserService;
+    @Autowired
+    private PunchClockTypeService punchClockTypeService;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private ClassService classService;
 
     /**
      * 学生签到考勤列表
@@ -34,20 +39,51 @@ public class PunchClockController {
      * @return
      */
     @GetMapping("/getPunchClockPage")
-    public ResultBody getPunchClockPage(int page, int size) {
+    public ResultBody getPunchClockPage(Integer classId, int page, int size) {
         Map<String, Object> searchMap = new HashMap<>();
         //获取当前用户类型
         User user = SessionHolder.getUser();
-        if (user.getType() == 1) {
+        if (user.getType() == UserTypeEnum.STUDENT.getId()) {
             ClassMdUser mdUser = mdUserService.getMdUserById(user.getId());
             searchMap.put("classId", mdUser.getClassId());
-        } else if (user.getType() == 2) {
-            return ResultBody.success("");
+        } else if (user.getType() == UserTypeEnum.TEACHER.getId()) {
+            if (classId == null) {
+                Collection<ClassMdUser> mdUserByTeaId = mdUserService.getMdUserByTeaId(user.getId());
+                if (!mdUserByTeaId.isEmpty()) {
+                    searchMap.put("classIds", mdUserByTeaId.stream().map(ClassMdUser::getClassId).collect(Collectors.toList()));
+                }
+            } else {
+                searchMap.put("classId", classId);
+            }
         }
-        List<PunchClock> pageList = punchClockService.getPunchClockPage(searchMap);
-        PageHelper.startPage(page,size,true);
-        PageInfo<PunchClock> punchPage = new PageInfo<>(pageList);
-        return ResultBody.success(punchPage);
+        List<PunchClockVo> punchClockVos = new ArrayList<>();
+        PageInfo<PunchClockVo> punchClockVoPageInfo = new PageInfo<>(punchClockVos);
+        List<PunchClock> pageList = new ArrayList<>();
+        if (!searchMap.isEmpty()) {
+            PageHelper.startPage(page, size, true);
+            pageList = punchClockService.getPunchClockPage(searchMap);
+            PageInfo<PunchClock> punchPage = new PageInfo<>(pageList);
+            BeanUtils.copyProperties(punchPage, punchClockVoPageInfo);
+        }
+        List<PunchClockType> punchClockTypeList = punchClockTypeService.getPunchClockTypeList();
+        Map<Integer, String> punchClockTypeMap = punchClockTypeList.stream().collect(Collectors.toMap(PunchClockType::getId, PunchClockType::getTypeName));
+        if (!pageList.isEmpty()) {
+            int[] classIDs = pageList.stream().mapToInt(PunchClock::getClassId).toArray();
+            Collection<Class> classeList = classService.listByIDs(classIDs);
+            Map<Integer, Class> classMap = classeList.stream().collect(Collectors.toMap(Class::getId, Function.identity()));
+            for (PunchClock punchClock : pageList) {
+                PunchClockVo punchClockVo = new PunchClockVo();
+                BeanUtils.copyProperties(punchClock, punchClockVo);
+                punchClockVo.setPunchClockTypeName(punchClockTypeMap.get(punchClockVo.getPunchClockTypeId()));
+                User student = userService.getUserById(punchClockVo.getStuId());
+                punchClockVo.setStuName(student.getName());
+                punchClockVo.setSno(student.getSno());
+                punchClockVo.setClassName(classMap.get(punchClockVo.getClassId()) == null ? "" : classMap.get(punchClockVo.getClassId()).getClassName());
+                punchClockVos.add(punchClockVo);
+            }
+        }
+        punchClockVoPageInfo.setList(punchClockVos);
+        return ResultBody.success(punchClockVoPageInfo);
     }
 
     @GetMapping("/getPunchClock")
@@ -79,10 +115,11 @@ public class PunchClockController {
         return ResultBody.success(c);
     }
 
-    @RequestMapping("/delPunchClock")
+    @GetMapping("/delPunchClock")
     public ResultBody delPunchClock(@RequestParam("classId") Integer classId) {
-        int i = punchClockService.deleteById(classId);
-        return ResultBody.success(i);
+        CommonUtil.ckeckAugrmentIsNull(classId, "请选择删除的班级");
+        punchClockService.deleteByClassId(classId);
+        return ResultBody.success("");
     }
 
 

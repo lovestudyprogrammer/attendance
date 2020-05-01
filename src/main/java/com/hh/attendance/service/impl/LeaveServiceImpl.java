@@ -1,7 +1,5 @@
 package com.hh.attendance.service.impl;
 
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
 import com.hh.attendance.dao.LeaveMapper;
 import com.hh.attendance.pojo.Leave;
 import com.hh.attendance.service.LeaveService;
@@ -43,5 +41,10 @@ public class LeaveServiceImpl implements LeaveService {
     @Override
     public List<Leave> getLeavePage(Map<String, Object> searchMap) {
         return leaveMapper.getLeavePage(searchMap);
+    }
+
+    @Override
+    public void updateApprovalStatus(int status, String approvalOpinion, int... ids) {
+        leaveMapper.updateApprovalStatus(status, approvalOpinion, ids);
     }
 }

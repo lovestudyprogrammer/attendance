@@ -74,6 +74,7 @@ public class SystemFilter implements Filter {
                 whiteList.add("/login");
                 whiteList.add("/register");
                 whiteList.add("/findPassword");
+                whiteList.add("/getAllClassList");
             }
         }
         return whiteList;
