@@ -26,6 +26,9 @@
         <if test="classId !=null">
             and class_id = #{classId}
         </if>
+        <if test="studentId !=null">
+            and stu_id = #{studentId}
+        </if>
         <if test="classIds !=null and classIds.size &gt; 0">
             and class_id in
             <foreach collection="classIds" item="classId" open="(" close=")" separator=",">
