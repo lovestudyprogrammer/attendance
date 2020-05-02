@@ -44,8 +44,9 @@ public class PunchClockController {
         //获取当前用户类型
         User user = SessionHolder.getUser();
         if (user.getType() == UserTypeEnum.STUDENT.getId()) {
-            ClassMdUser mdUser = mdUserService.getMdUserById(user.getId());
-            searchMap.put("classId", mdUser.getClassId());
+//            ClassMdUser mdUser = mdUserService.getMdUserById(user.getId());
+            searchMap.put("studentId", user.getId());
+//            searchMap.put("classId", mdUser.getClassId());
         } else if (user.getType() == UserTypeEnum.TEACHER.getId()) {
             if (classId == null) {
                 Collection<ClassMdUser> mdUserByTeaId = mdUserService.getMdUserByTeaId(user.getId());
